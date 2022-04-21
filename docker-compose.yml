@@ -1,0 +1,27 @@
+version: '3'
+services:
+  mocker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - backend
+    depends_on:
+      - mongodb
+    ports:
+      - "8082:8082"
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - ~/apps/mongo:/data/db
+    environment:
+      - MONGODB_CONNSTRING=mongodb://root:root@mongodb
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    ports:
+      - 27017:27017
+    networks:
+      - backend
+
+networks:
+  backend:
